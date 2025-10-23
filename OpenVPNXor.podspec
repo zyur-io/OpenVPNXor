@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
   s.name             = 'OpenVPNXor'
   s.version          = '2.3.1'
   s.summary          = 'Library for simple connection via OpenVPN protocol with Xor patch.'
-  s.module_name      = 'OpenVPNXor'
+  s.module_name      = 'OpenVPNXorKit'
 
   s.description      = <<-DESC
 OpenVPNXor is a library that allows to configure and establish VPN connection using OpenVPN protocol easily. It is based on the original openvpn3 library so it has every feature the library has.
