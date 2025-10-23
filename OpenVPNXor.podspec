@@ -26,24 +26,46 @@ Built from source for Swift 6.2 compatibility.
   
   # Build from source instead of using precompiled binary
   s.source           = { :git => 'https://github.com/zyur-io/OpenVPNXor.git', :branch => 'main' }
-  s.source_files     = 'Sources/**/*.{h,m,mm,cpp,c,swift}'
-  s.public_header_files = 'Sources/**/*.h'
-  s.preserve_paths   = 'Sources/**/*'
+  
+  # Swift files
+  s.source_files     = 'Sources/Managers/*.swift', 'Sources/*.swift'
+  
+  # Objective-C/C++ files
+  s.source_files     += 'Sources/OpenVPNAdapter/**/*.{h,m,mm,cpp}'
+  s.source_files     += 'Sources/MMWormhole/*.{h,m}'
+  
+  # Headers
+  s.public_header_files = 'Sources/OpenVPNAdapter/Umbrella-Header.h',
+                          'Sources/OpenVPNAdapter/*.h',
+                          'Sources/MMWormhole/*.h'
+  
+  # Preserve vendor libraries
+  s.preserve_paths   = 'Sources/OpenVPNAdapter/Libraries/**/*'
+  s.vendored_libraries = 'Sources/OpenVPNAdapter/Libraries/Vendors/lz4/lib/ios/liblz4.a',
+                         'Sources/OpenVPNAdapter/Libraries/Vendors/mbedtls/lib/ios/libmbedcrypto.a',
+                         'Sources/OpenVPNAdapter/Libraries/Vendors/mbedtls/lib/ios/libmbedtls.a',
+                         'Sources/OpenVPNAdapter/Libraries/Vendors/mbedtls/lib/ios/libmbedx509.a'
+  
+  # Header search paths for vendors
+  s.xcconfig = {
+    'CLANG_CXX_LANGUAGE_STANDARD' => 'c++17',
+    'CLANG_CXX_LIBRARY' => 'libc++',
+    'SWIFT_VERSION' => '6.2',
+    'HEADER_SEARCH_PATHS' => '$(PODS_TARGET_SRCROOT)/Sources/OpenVPNAdapter/Libraries/Vendors/asio/asio/include $(PODS_TARGET_SRCROOT)/Sources/OpenVPNAdapter/Libraries/Vendors/openvpn $(PODS_TARGET_SRCROOT)/Sources/OpenVPNAdapter/Libraries/Vendors/lz4/include $(PODS_TARGET_SRCROOT)/Sources/OpenVPNAdapter/Libraries/Vendors/mbedtls/include',
+    'OTHER_CFLAGS' => '-DUSE_ASIO -DASIO_STANDALONE -DASIO_NO_DEPRECATED -DHAVE_LZ4 -DUSE_MBEDTLS',
+    'GCC_WARN_INHIBIT_ALL_WARNINGS' => 'YES',
+    'CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES' => 'YES'
+  }
   
   s.libraries        = 'c++', 'z', 'resolv'
   s.frameworks       = 'NetworkExtension', 'SystemConfiguration', 'CoreFoundation', 'CFNetwork', 'Security'
   s.requires_arc     = true
   
-  s.xcconfig = {
-    'CLANG_CXX_LANGUAGE_STANDARD' => 'c++17',
-    'CLANG_CXX_LIBRARY' => 'libc++',
-    'SWIFT_VERSION' => '6.2',
-    'OTHER_CFLAGS' => '-DUSE_ASIO -DASIO_STANDALONE -DASIO_NO_DEPRECATED -DHAVE_LZ4'
-  }
-  
   s.pod_target_xcconfig = { 
     'SWIFT_VERSION' => '6.2',
-    'BUILD_LIBRARY_FOR_DISTRIBUTION' => 'YES'
+    'BUILD_LIBRARY_FOR_DISTRIBUTION' => 'YES',
+    'DEFINES_MODULE' => 'YES',
+    'CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES' => 'YES'
   }
   s.user_target_xcconfig = { 
     'SWIFT_VERSION' => '6.2'
