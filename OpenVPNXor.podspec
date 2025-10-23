@@ -7,7 +7,7 @@
 #
 
 Pod::Spec.new do |s|
-  s.name             = 'OpenVPNXor'
+  s.name             = 'OpenVPNXorKit'
   s.version          = '2.3.1'
   s.summary          = 'Library for simple connection via OpenVPN protocol with Xor patch.'
   s.module_name      = 'OpenVPNXorKit'
