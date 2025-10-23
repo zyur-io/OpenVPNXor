@@ -29,14 +29,13 @@ Built from source for Swift 6.2 compatibility.
   # Build from source instead of using precompiled binary
   s.source           = { :git => 'https://github.com/zyur-io/OpenVPNXor.git', :branch => 'main' }
   
-  # Swift files
-  s.source_files     = 'Sources/Managers/*.swift', 'Sources/*.swift'
+  # All source files (Swift, Objective-C, C++)
+  s.source_files     = 'Sources/Managers/*.swift', 
+                       'Sources/*.swift',
+                       'Sources/OpenVPNAdapter/**/*.{h,m,mm,cpp}',
+                       'Sources/MMWormhole/*.{h,m}'
   
-  # Objective-C/C++ files
-  s.source_files     += 'Sources/OpenVPNAdapter/**/*.{h,m,mm,cpp}'
-  s.source_files     += 'Sources/MMWormhole/*.{h,m}'
-  
-  # Headers
+  # Public headers
   s.public_header_files = 'Sources/OpenVPNAdapter/Umbrella-Header.h',
                           'Sources/OpenVPNAdapter/*.h',
                           'Sources/MMWormhole/*.h'
